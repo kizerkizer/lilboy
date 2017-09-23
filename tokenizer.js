@@ -100,18 +100,21 @@ class Tokenizer {
   }
 
   _readRegex () {
-    if (this.input[this.currentIndex] == '/' && this._isRegexFirstChar(this.input[this.currentIndex + 1])) {
-      let index = this.currentIndex + 1;
-      while (!(this.input[index] == '/' && this.input[index - 1] != '\\')) { // while we are not on an unescaped /
-        if (index >= this.input.length) {
+    let input = this.input,
+        index = this.currentIndex,
+        length = this.input.length;
+    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1])) {
+      index++;
+      while (! (input.charCodeAt(index) === 47 && input.charCodeAt(index - 1) !== 92)) { // while we are not on unescaped /
+        if (index > length) {
           throw new Error('Open regex');
         }
         index++;
       }
-      while (this.input[index + 1] == 'g' || this.input[index + 1] == 'i' || this.input[index + 1] == 'm' || this.input[index + 1] == 'u' || this.input[index + 1] == 'y') {
+      while (input.charCodeAt(index + 1) === 103 || input.charCodeAt(index + 1) === 105 || input.charCodeAt(index + 1) === 109 || input.charCodeAt(index + 1) === 117 || input.charCodeAt(index + 1) === 121) {
         index++;
       }
-      return this.input.substring(this.currentIndex, index + 1);
+      return input.substring(this.currentIndex, index + 1);
     }
     return null;
   }
