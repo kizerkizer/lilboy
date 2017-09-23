@@ -2,7 +2,7 @@ class Tokenizer {
   constructor (input) {
     this.input = input;
     this.currentIndex = 0;
-    this.currentLine = 0;
+    this.currentLine = 1;
   }
   // _isNewline (character) : Boolean (generated)
 
@@ -99,7 +99,14 @@ class Tokenizer {
   _readMultilineComment (currentIndex) {
     let input = this.input;
     if (input.charCodeAt(currentIndex) === 47 && input.charCodeAt(currentIndex + 1) === 42) {
-      return this.input.substring(currentIndex, input.indexOf('*/', currentIndex) + 2);
+      // TODO check vvv
+      let endIndex = input.indexOf('*/', currentIndex);
+      let search = currentIndex;
+      while ((search = input.indexOf('\n', search + 1)) !== -1 && search < endIndex) {
+        this.currentLine++;
+      }
+      // TODO check ^^^
+      return this.input.substring(currentIndex, endIndex + 2);
     }
     return null;
   }
@@ -127,7 +134,7 @@ class Tokenizer {
   next () {
 
     // skip whitespace, newlines, comments
-    for (let index = this.currentIndex, line = this.currentLine, length = this.input.length, comment; ; ) {
+    for (let index = this.currentIndex, length = this.input.length, comment; ; ) {
       if (index >= length) {
         return {
           done: true,
@@ -140,7 +147,7 @@ class Tokenizer {
       }
       if (this._isNewline(this.input[index])) {
         index++;
-        line++;
+        this.currentLine++;
         continue;
       }
       if (comment = this._readComment(index)) {
@@ -155,67 +162,74 @@ class Tokenizer {
       break;
     }
 
+    let candidate;
+
     // try to read a regex literal
-    let regex = this._readRegex();
-    if (regex) {
-      this.currentIndex += regex.length;
+    candidate = this._readRegex();
+    if (candidate) {
+      this.currentIndex += candidate.length;
       return {
         done: false,
         value: {
           type: 'regex',
-          value: regex
+          value: candidate,
+          line: this.currentLine
         }
       };
     }
 
     // try to read a punctuator
-    let punctuator = this._readPunctuator();
-    if (punctuator) {
-      this.currentIndex += punctuator.length;
+    candidate = this._readPunctuator();
+    if (candidate) {
+      this.currentIndex += candidate.length;
       return {
         done: false,
         value: {
           type: 'punctuator',
-          value: punctuator
+          value: candidate,
+          line: this.currentLine
         }
       };
     }
 
     // try to read an identifier
-    let identifier = this._readSimpleIdentifier();
-    if (identifier) {
-      this.currentIndex += identifier.length;
+    candidate = this._readSimpleIdentifier();
+    if (candidate) {
+      this.currentIndex += candidate.length;
       return {
         done: false,
         value: {
           type: 'identifier',
-          value: identifier
+          value: candidate,
+          line: this.currentLine
         }
       };
     }
 
     // try to read a string literal
-    let string = this._readString();
-    if (string) {
-      this.currentIndex += string.length;
+    candidate = this._readString();
+    if (candidate) {
+      this.currentIndex += candidate.length;
       return {
         done: false,
         value: {
           type: 'string',
-          value: string
+          value: candidate,
+          line: this.currentLine
         }
       };
     }
 
     // try to read a number literal
-    let number = this._readIntegerOrSimpleFloat();
-    if (number) {
-      this.currentIndex += number.length;
+    candidate = this._readIntegerOrSimpleFloat();
+    if (candidate) {
+      this.currentIndex += candidate.length;
       return {
         done: false,
         value: {
           type: 'number',
-          value: number
+          value: candidate,
+          line: this.currentLine
         }
       };
     }
