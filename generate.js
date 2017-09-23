@@ -12,5 +12,5 @@ tokenizer = tokenizer.replace('//#_isNewline', _isNewline);
 tokenizer = tokenizer.replace('//#_isWhitespace', _isWhitespace);
 tokenizer = tokenizer.replace('//#_readPunctuator', _readPunctuator);
 
-fs.writeFileSync('out.js', tokenizer);
-fs.writeFileSync('out.min.js', UglifyJS.minify(tokenizer).code);
+fs.writeFileSync('dist/out.js', tokenizer);
+fs.writeFileSync('dist/out.min.js', UglifyJS.minify(tokenizer).code);
