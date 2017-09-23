@@ -93,8 +93,9 @@ class Tokenizer {
   }
 
   _readMultilineComment (currentIndex) {
-    if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '*') {
-      return this.input.substring(currentIndex, this.input.indexOf('*/', currentIndex) + 2);
+    let input = this.input;
+    if (input.charCodeAt(currentIndex) === 47 && input.charCodeAt(currentIndex + 1) === 42) {
+      return this.input.substring(currentIndex, input.indexOf('*/', currentIndex) + 2);
     }
     return null;
   }
