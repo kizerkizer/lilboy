@@ -49,6 +49,20 @@ class Tokenizer {
         currentIndex = this.currentIndex,
         input = this.input,
         noPointYet = true;
+    // hex integer?
+    if (input.charCodeAt(index) === 48 && input.charCodeAt(index + 1) === 120) {
+      index += 2;
+      for (let code, length = this.input.length; index < length; ) {
+        code = input.charCodeAt(index);
+        if ((code >= 48 && code <= 57) || (code >= 65 && code <= 70) || (code >= 97 && code <= 102)) {
+          index++;
+        } else {
+          break;
+        }
+      }
+      return input.substring(this.currentIndex, index);
+    }
+    // decimal ?
     for (let code, length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if (code >= 48 && code <= 57) {
@@ -148,7 +162,7 @@ class Tokenizer {
     let input = this.input,
         index = this.currentIndex,
         length = this.input.length;
-    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1]) && (!this.lastReadToken || (this.lastReadToken.value.type !== 'number' && this.lastReadToken.value.type !== 'identifier'))) {
+    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1]) && (!this.lastReadToken || (this.lastReadToken.value.type !== 'number' && this.lastReadToken.value.type !== 'identifier' && this.lastReadToken.value.value !== ')'))) {
       index++;
       while (! (input.charCodeAt(index) === 47 && input.charCodeAt(index - 1) !== 92)) { // while we are not on unescaped /
         if (index > length) {
