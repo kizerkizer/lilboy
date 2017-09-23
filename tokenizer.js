@@ -131,7 +131,7 @@ class Tokenizer {
 
   _readComment (currentIndex) {
     if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '/') {
-      return this.input.substring(currentIndex, this.input.indexOf('\n', currentIndex));
+      return this.input.substring(currentIndex, this.input.indexOf('\n', currentIndex)); // TODO \n ?
     }
     return null;
   }
@@ -142,7 +142,7 @@ class Tokenizer {
       // TODO check vvv
       let endIndex = input.indexOf('*/', currentIndex);
       let search = currentIndex;
-      while ((search = input.indexOf('\n', search + 1)) !== -1 && search < endIndex) {
+      while ((search = input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
         this.currentLine++;
       }
       // TODO check ^^^
