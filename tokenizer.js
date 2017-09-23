@@ -17,7 +17,7 @@ class Tokenizer {
 //#_readPunctuator
 
   // TODO support other unicode characters
-  _readIdentifier () {
+  _readSimpleIdentifier () {
     let index = this.currentIndex,
         currentIndex = this.currentIndex,
         input = this.input;
@@ -182,7 +182,7 @@ class Tokenizer {
     }
 
     // try to read an identifier
-    let identifier = this._readIdentifier();
+    let identifier = this._readSimpleIdentifier();
     if (identifier) {
       this.currentIndex += identifier.length;
       return {
