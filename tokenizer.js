@@ -35,7 +35,6 @@ class Tokenizer {
           break;
         }
       } else {
-        //if (/[0-9a-zA-Z]/.test(this.input[index])) {
         if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
           index++;
         } else {
