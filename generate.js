@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const UglifyJS = require('uglify-es');
 
-let tokenizer = fs.readFileSync('./tokenizer2.js').toString();
+let tokenizer = fs.readFileSync('./tokenizer.js').toString();
 
 const _isNewline = require('./codeGenerators/gen__isNewline.js')();
 const _isWhitespace = require('./codeGenerators/gen__isWhitespace.js')();
