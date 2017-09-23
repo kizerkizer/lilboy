@@ -3,6 +3,7 @@ class Tokenizer {
     this.input = input;
     this.currentIndex = 0;
     this.currentLine = 1;
+    this.lastReadToken = null;
   }
   // _isNewline (character) : Boolean (generated)
 
@@ -147,7 +148,7 @@ class Tokenizer {
     let input = this.input,
         index = this.currentIndex,
         length = this.input.length;
-    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1])) {
+    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1]) && (!this.lastReadToken || (this.lastReadToken.value.type !== 'number' && this.lastReadToken.value.type !== 'identifier'))) {
       index++;
       while (! (input.charCodeAt(index) === 47 && input.charCodeAt(index - 1) !== 92)) { // while we are not on unescaped /
         if (index > length) {
@@ -200,7 +201,7 @@ class Tokenizer {
     candidate = this._readRegex();
     if (candidate) {
       this.currentIndex += candidate.length;
-      return {
+      return this.lastReadToken = {
         done: false,
         value: {
           type: 'regex',
@@ -214,7 +215,7 @@ class Tokenizer {
     candidate = this._readPunctuator();
     if (candidate) {
       this.currentIndex += candidate.length;
-      return {
+      return this.lastReadToken = {
         done: false,
         value: {
           type: 'punctuator',
@@ -228,7 +229,7 @@ class Tokenizer {
     candidate = this._readSimpleIdentifier();
     if (candidate) {
       this.currentIndex += candidate.length;
-      return {
+      return this.lastReadToken = {
         done: false,
         value: {
           type: 'identifier',
@@ -242,7 +243,7 @@ class Tokenizer {
     candidate = this._readString();
     if (candidate) {
       this.currentIndex += candidate.length;
-      return {
+      return this.lastReadToken = {
         done: false,
         value: {
           type: 'string',
@@ -256,7 +257,7 @@ class Tokenizer {
     candidate = this._readIntegerOrSimpleFloat();
     if (candidate) {
       this.currentIndex += candidate.length;
-      return {
+      return this.lastReadToken = {
         done: false,
         value: {
           type: 'number',
