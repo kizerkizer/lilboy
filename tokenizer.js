@@ -23,18 +23,20 @@ class Tokenizer {
 
 //#_readPunctuator
 
-  // TODO generate this:
+  // TODO support other unicode characters
   _readIdentifier () {
     let index = this.currentIndex;
-    for (let length = this.input.length; index < length;) {
+    for (let code, input = this.input, length = this.input.length; index < length; ) {
+      code = input.charCodeAt(index);
       if (index == this.currentIndex) {
-        if (/[a-zA-Z]/.test(this.input[index])) {
+        if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95) { ///[a-zA-Z]/.test(this.input[index])) {
           index++;
         } else {
           break;
         }
       } else {
-        if (/[0-9a-zA-Z]/.test(this.input[index])) {
+        //if (/[0-9a-zA-Z]/.test(this.input[index])) {
+        if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
           index++;
         } else {
           break;
