@@ -85,16 +85,16 @@ class Tokenizer {
     return null;
   }
 
-  _readComment () {
-    if (this.input[this.currentIndex] == '/' && this.input[this.currentIndex + 1] == '/') {
-      return this.input.substring(this.currentIndex, this.input.indexOf('\n', this.currentIndex));
+  _readComment (currentIndex) {
+    if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '/') {
+      return this.input.substring(currentIndex, this.input.indexOf('\n', currentIndex));
     }
     return null;
   }
 
-  _readMultilineComment () {
-    if (this.input[this.currentIndex] == '/' && this.input[this.currentIndex + 1] == '*') {
-      return this.input.substring(this.currentIndex, this.input.indexOf('*/', this.currentIndex) + 2);
+  _readMultilineComment (currentIndex) {
+    if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '*') {
+      return this.input.substring(currentIndex, this.input.indexOf('*/', currentIndex) + 2);
     }
     return null;
   }
@@ -117,72 +117,80 @@ class Tokenizer {
   }
 
   next () {
-    main:
-    for (;;) {
-      if (this.currentIndex >= this.input.length) {
+
+    for (let index = this.currentIndex, line = this.currentLine, length = this.input.length, comment; ; ) {
+      if (index >= length) {
         return {
           done: true,
           value: undefined
         };
       }
-      while (this._isWhitespace(this.input[this.currentIndex])) {
-        this.currentIndex++;
+      if (this._isWhitespace(this.input[index])) {
+        index++;
+        continue;
       }
-      while (this._isNewline(this.input[this.currentIndex])) {
-        this.currentIndex++;
-        this.currentLine++;
-        continue main;
+      if (this._isNewline(this.input[index])) {
+        index++;
+        line++;
+        continue;
       }
-      let regex = this._readRegex();
-      if (regex) {
-        this.currentIndex += regex.length;
-        return {
-          done: false,
-          value: new Token('regex', regex)
-        };
-      }
-      let comment = this._readComment();
+      comment = this._readComment(index);
       if (comment) {
-        this.currentIndex += comment.length;
+        index += comment.length;
         continue;
       }
-      let multilineComment = this._readMultilineComment();
-      if (multilineComment) {
-        this.currentIndex += multilineComment.length;
+      comment = this._readMultilineComment(index);
+      if (comment) {
+        index += comment.length;
         continue;
       }
-      let punctuator = this._readPunctuator();
-      if (punctuator) {
-        this.currentIndex += punctuator.length;
-        return {
-          done: false,
-          value: new Token('punctuator', punctuator)
-        };
-      }
-      let identifier = this._readIdentifier();
-      if (identifier) {
-        this.currentIndex += identifier.length;
-        return {
-          done: false,
-          value: new Token('identifier', identifier)
-        };
-      }
-      let number = this._readNumber();
-      if (number) {
-        this.currentIndex += number.length;
-        return {
-          done: false,
-          value: new Token('number', number)
-        };
-      }
-      let string = this._readString();
-      if (string) {
-        this.currentIndex += string.length;
-        return {
-          done: false,
-          value: new Token('string', string)
-        };
-      }
+      this.currentIndex = index;
+      break;
+    }
+
+    let regex = this._readRegex();
+    if (regex) {
+      this.currentIndex += regex.length;
+      return {
+        done: false,
+        value: new Token('regex', regex)
+      };
+    }
+
+    let punctuator = this._readPunctuator();
+    if (punctuator) {
+      this.currentIndex += punctuator.length;
+      return {
+        done: false,
+        value: new Token('punctuator', punctuator)
+      };
+    }
+
+    let identifier = this._readIdentifier();
+    if (identifier) {
+      this.currentIndex += identifier.length;
+      return {
+        done: false,
+        value: new Token('identifier', identifier)
+      };
+    }
+
+    let number = this._readNumber();
+    if (number) {
+      this.currentIndex += number.length;
+      return {
+        done: false,
+        value: new Token('number', number)
+      };
+    }
+
+    let string = this._readString();
+    if (string) {
+      this.currentIndex += string.length;
+      return {
+        done: false,
+        value: new Token('string', string)
+      };
     }
   }
 }
