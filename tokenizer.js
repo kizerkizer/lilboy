@@ -5,13 +5,6 @@ class Tokenizer {
     this.currentLine = 1;
     this.lastReadToken = null;
   }
-  // _isNewline (character) : Boolean (generated)
-
-//#_isNewline
-
-  // _isWhitespace (character) : Boolean (generated)
-
-//#_isWhitespace
 
   // _readPunctuator () : String | null (generated)
 
@@ -82,8 +75,8 @@ class Tokenizer {
     return input.substring(this.currentIndex, index);
   }
 
-  _isRegexFirstChar (character) {
-    return !this._isNewline(character) && character != '*' && character != '/'; // TODO conform to spec
+  _isRegexFirstChar (code) {
+    return (!(/*#_isNewline*/)) && code !== 42 && code !== 47; // TODO conform to spec
   }
 
   _readString () {
@@ -162,7 +155,7 @@ class Tokenizer {
     let input = this.input,
         index = this.currentIndex,
         length = this.input.length;
-    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input[index + 1]) && (!this.lastReadToken || (this.lastReadToken.value.type !== 'number' && this.lastReadToken.value.type !== 'identifier' && this.lastReadToken.value.value !== ')'))) {
+    if (input.charCodeAt(index) === 47 && this._isRegexFirstChar(input.charCodeAt(index + 1)) && (!this.lastReadToken || (this.lastReadToken.value.type !== 'number' && this.lastReadToken.value.type !== 'identifier' && this.lastReadToken.value.value !== ')'))) {
       index++;
       while (! (input.charCodeAt(index) === 47 && input.charCodeAt(index - 1) !== 92)) { // while we are not on unescaped /
         if (index > length) {
@@ -181,18 +174,18 @@ class Tokenizer {
   next () {
 
     // skip whitespace, newlines, comments
-    for (let index = this.currentIndex, length = this.input.length, comment; ; ) {
+    for (let index = this.currentIndex, input = this.input, length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
       if (index >= length) {
         return {
           done: true,
           value: undefined
         };
       }
-      if (this._isWhitespace(this.input[index])) {
+      if (/*#_isWhitespace*/) {
         index++;
         continue;
       }
-      if (this._isNewline(this.input[index])) {
+      if (/*#_isNewline*/) {
         index++;
         this.currentLine++;
         continue;
