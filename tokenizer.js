@@ -25,10 +25,12 @@ class Tokenizer {
 
   // TODO support other unicode characters
   _readIdentifier () {
-    let index = this.currentIndex;
-    for (let code, input = this.input, length = this.input.length; index < length; ) {
+    let index = this.currentIndex,
+        currentIndex = this.currentIndex,
+        input = this.input;
+    for (let code, length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
-      if (index == this.currentIndex) {
+      if (index == currentIndex) {
         if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95) {
           index++;
         } else {
@@ -42,17 +44,20 @@ class Tokenizer {
         }
       }
     }
-    if (index == this.currentIndex) {
+    if (index == currentIndex) {
       return null;
     }
-    return this.input.substring(this.currentIndex, index);
+    return input.substring(currentIndex, index);
   }
 
   // TODO generate this:
   _readNumber () {
-    let index = this.currentIndex;
-    for (let length = this.input.length; index < length;) {
-      if (/[0-9]/.test(this.input[index])) {
+    let index = this.currentIndex,
+        currentIndex = this.currentIndex,
+        input = this.input;
+    for (let code, length = this.input.length; index < length; ) {
+      code = input.charCodeAt(index);
+      if (code >= 48 && code <= 57) {
         index++;
       } else {
         break;
@@ -61,7 +66,7 @@ class Tokenizer {
     if (index == this.currentIndex) {
       return null;
     }
-    return this.input.substring(this.currentIndex, index);
+    return input.substring(this.currentIndex, index);
   }
 
   _isRegexFirstChar (character) {
