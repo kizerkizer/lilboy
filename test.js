@@ -39,18 +39,14 @@ let a = [],
 let s = Date.now();
 let n = 0;
 let tokens;
-for (let i = 0; i < 100; i++) {
 tokens = tokenizer(test);
   for (token of tokens) { a.push(token.value); n++; }
-}
 console.log(`${Date.now() - s}ms; ${n} tokens`);
 
 s = Date.now();
 n = 0;
-for (let i = 0; i < 100; i++) {
 tokens = acorn.tokenizer(test);
   for (token of tokens) { b.push(token.type.label); n++; }
-}
 console.log(`${Date.now() - s}ms; ${n} tokens`);
 
 //sbs(a, b);
