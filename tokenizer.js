@@ -1,10 +1,3 @@
-class Token {
-  constructor (type, value) {
-    this.type = type;
-    this.value = value;
-  }
-}
-
 class Tokenizer {
   constructor (input) {
     this.input = input;
@@ -161,7 +154,10 @@ class Tokenizer {
       this.currentIndex += regex.length;
       return {
         done: false,
-        value: new Token('regex', regex)
+        value: {
+          type: 'regex',
+          value: regex
+        }
       };
     }
 
@@ -170,7 +166,10 @@ class Tokenizer {
       this.currentIndex += punctuator.length;
       return {
         done: false,
-        value: new Token('punctuator', punctuator)
+        value: {
+          type: 'punctuator',
+          value: punctuator
+        }
       };
     }
 
@@ -179,7 +178,10 @@ class Tokenizer {
       this.currentIndex += identifier.length;
       return {
         done: false,
-        value: new Token('identifier', identifier)
+        value: {
+          type: 'identifier',
+          value: identifier
+        }
       };
     }
 
@@ -188,7 +190,10 @@ class Tokenizer {
       this.currentIndex += number.length;
       return {
         done: false,
-        value: new Token('number', number)
+        value: {
+          type: 'number',
+          value: number
+        }
       };
     }
 
@@ -197,7 +202,10 @@ class Tokenizer {
       this.currentIndex += string.length;
       return {
         done: false,
-        value: new Token('string', string)
+        value: {
+          type: 'string',
+          value: string
+        }
       };
     }
   }
