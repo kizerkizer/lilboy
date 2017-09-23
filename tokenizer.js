@@ -134,13 +134,11 @@ class Tokenizer {
         line++;
         continue;
       }
-      comment = this._readComment(index);
-      if (comment) {
+      if (comment = this._readComment(index)) {
         index += comment.length;
         continue;
       }
-      comment = this._readMultilineComment(index);
-      if (comment) {
+      if (comment = this._readMultilineComment(index)) {
         index += comment.length;
         continue;
       }
