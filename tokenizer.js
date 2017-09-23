@@ -43,15 +43,20 @@ class Tokenizer {
     return input.substring(currentIndex, index);
   }
 
-  // TODO generate this:
-  _readNumber () {
+  _readIntegerOrSimpleFloat () {
     let index = this.currentIndex,
         currentIndex = this.currentIndex,
-        input = this.input;
+        input = this.input,
+        noPointYet = true;
     for (let code, length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if (code >= 48 && code <= 57) {
         index++;
+      } else if (code === 46 && noPointYet) {
+        noPointYet = false;
+        index++;
+      } else if (code === 46) {
+        throw new Error('two points');
       } else {
         break;
       }
@@ -203,7 +208,7 @@ class Tokenizer {
     }
 
     // try to read a number literal
-    let number = this._readNumber();
+    let number = this._readIntegerOrSimpleFloat();
     if (number) {
       this.currentIndex += number.length;
       return {
