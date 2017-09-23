@@ -73,16 +73,48 @@ class Tokenizer {
 
   _readString () {
     if (this.input[this.currentIndex] == '\'') {
-      let end = this.input.indexOf('\'', this.currentIndex + 1);
-      if (end === -1) {
-        throw new Error('Open string');
+      var end = this.currentIndex,
+          index,
+          count;
+      for (; ; ) {
+        end = this.input.indexOf('\'', end + 1);
+        if (end === -1) {
+          throw new Error('Open string');
+        }
+        index = end - 1,
+        count = 0;
+        while (this.input[index] == '\\') {
+          index--;
+          count++;
+        }
+        if (count % 2 == 0) {
+          break;
+        } else {
+          continue;
+        }
       }
       return this.input.substring(this.currentIndex, end + 1);
     }
     if (this.input[this.currentIndex] == '"') {
-      let end = this.input.indexOf('"', this.currentIndex + 1);
-      if (end === -1) {
-        throw new Error('Open string');
+      var end = this.currentIndex,
+          index,
+          count;
+      for (; ; ) {
+        end = this.input.indexOf('"', end + 1);
+        if (end === -1) {
+          throw new Error('Open string');
+        }
+        index = end - 1,
+        count = 0;
+        while (this.input[index] == '\\') {
+          index--;
+          count++;
+        }
+        if (count % 2 == 0) {
+          break;
+        } else {
+          continue;
+        }
       }
       return this.input.substring(this.currentIndex, end + 1);
     }
