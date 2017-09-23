@@ -121,6 +121,7 @@ class Tokenizer {
 
   next () {
 
+    // skip whitespace, newlines, comments
     for (let index = this.currentIndex, line = this.currentLine, length = this.input.length, comment; ; ) {
       if (index >= length) {
         return {
@@ -149,6 +150,7 @@ class Tokenizer {
       break;
     }
 
+    // try to read a regex literal
     let regex = this._readRegex();
     if (regex) {
       this.currentIndex += regex.length;
@@ -161,6 +163,7 @@ class Tokenizer {
       };
     }
 
+    // try to read a punctuator
     let punctuator = this._readPunctuator();
     if (punctuator) {
       this.currentIndex += punctuator.length;
@@ -173,6 +176,7 @@ class Tokenizer {
       };
     }
 
+    // try to read an identifier
     let identifier = this._readIdentifier();
     if (identifier) {
       this.currentIndex += identifier.length;
@@ -185,6 +189,20 @@ class Tokenizer {
       };
     }
 
+    // try to read a string literal
+    let string = this._readString();
+    if (string) {
+      this.currentIndex += string.length;
+      return {
+        done: false,
+        value: {
+          type: 'string',
+          value: string
+        }
+      };
+    }
+
+    // try to read a number literal
     let number = this._readNumber();
     if (number) {
       this.currentIndex += number.length;
@@ -197,17 +215,6 @@ class Tokenizer {
       };
     }
 
-    let string = this._readString();
-    if (string) {
-      this.currentIndex += string.length;
-      return {
-        done: false,
-        value: {
-          type: 'string',
-          value: string
-        }
-      };
-    }
   }
 }
 
