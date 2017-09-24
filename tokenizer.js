@@ -75,6 +75,9 @@ class Tokenizer {
       return input.slice(this.currentIndex, index);
     }
     // decimal ?
+    let code,
+        length = this.input.length;
+    code = input.charCodeAt(index);
     for (let code, length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if (code >= 48 && code <= 57) {
