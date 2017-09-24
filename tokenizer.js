@@ -53,7 +53,7 @@ class Tokenizer {
     if (index == currentIndex) {
       return null;
     }
-    return input.substring(currentIndex, index);
+    return input.slice(currentIndex, index);
   }
   
   _readIntegerOrSimpleFloat () {
@@ -72,7 +72,7 @@ class Tokenizer {
           break;
         }
       }
-      return input.substring(this.currentIndex, index);
+      return input.slice(this.currentIndex, index);
     }
     // decimal ?
     for (let code, length = this.input.length; index < length; ) {
@@ -91,7 +91,7 @@ class Tokenizer {
     if (index == this.currentIndex) {
       return null;
     }
-    return input.substring(this.currentIndex, index);
+    return input.slice(this.currentIndex, index);
   }
 
   _isRegexFirstChar (code) {
@@ -122,7 +122,7 @@ class Tokenizer {
           continue;
         }
       }
-      return this.input.substring(this.currentIndex, end + 1);
+      return this.input.slice(this.currentIndex, end + 1);
     }
     if (this.input[this.currentIndex] == '"') {
       var end = this.currentIndex,
@@ -147,15 +147,19 @@ class Tokenizer {
           continue;
         }
       }
-      return this.input.substring(this.currentIndex, end + 1);
+      return this.input.slice(this.currentIndex, end + 1);
     }
     return null;
   }
 
   _readComment (currentIndex) {
+    let index = currentIndex,
+        input = this.input;
     if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '/') {
-      return this.input.substring(currentIndex, this.input.indexOf('\n', currentIndex)); // TODO \n ?
-      //return this.input.substring(currentIndex, this._indexOf('\n', currentIndex)); // TODO \n ?
+      /*searchNewline*/
+      //return this.input.slice(currentIndex, index);
+      return this.input.slice(currentIndex, this.input.indexOf('\n', currentIndex)); // TODO \n ?
+      //return this.input.slice(currentIndex, this._indexOf('\n', currentIndex)); // TODO \n ?
     }
     return null;
   }
@@ -171,7 +175,7 @@ class Tokenizer {
         this.currentLine++;
       }
       // TODO check ^^^
-      return this.input.substring(currentIndex, endIndex + 2);
+      return this.input.slice(currentIndex, endIndex + 2);
     }
     return null;
   }
@@ -191,7 +195,7 @@ class Tokenizer {
       while (input.charCodeAt(index + 1) === 103 || input.charCodeAt(index + 1) === 105 || input.charCodeAt(index + 1) === 109 || input.charCodeAt(index + 1) === 117 || input.charCodeAt(index + 1) === 121) {
         index++;
       }
-      return input.substring(this.currentIndex, index + 1);
+      return input.slice(this.currentIndex, index + 1);
     }
     return null;
   }
