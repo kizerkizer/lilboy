@@ -10,6 +10,25 @@ class Tokenizer {
 
 //#_readPunctuator
 
+   /*_indexOf (string, startingIndex) {
+    let input = this.input,
+        stringLength = string.length,
+        index;
+    for (let i = startingIndex, j = 0, length = this.input.length; i < length; i++) {
+      index = i;
+      while (input.charAt(i + j) === string.charAt(j) && j < stringLength) {
+        j++;
+      }
+      if (j === string.length) {
+        return index;
+      }
+      j = 0;
+    }
+    return -1;
+   }*/
+
+  // _indexOf (string, startingIndex) : Number // TODO ?
+
   // TODO support other unicode characters
   _readSimpleIdentifier () {
     let index = this.currentIndex,
@@ -36,7 +55,7 @@ class Tokenizer {
     }
     return input.substring(currentIndex, index);
   }
-
+  
   _readIntegerOrSimpleFloat () {
     let index = this.currentIndex,
         currentIndex = this.currentIndex,
@@ -83,9 +102,11 @@ class Tokenizer {
     if (this.input[this.currentIndex] == '\'') {
       var end = this.currentIndex,
           index,
-          count;
+          count,
+          input = this.input;
       for (; ; ) {
-        end = this.input.indexOf('\'', end + 1);
+        /*#stringSearchSingle*/
+        //end = this._indexOf('\'', end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
@@ -106,9 +127,11 @@ class Tokenizer {
     if (this.input[this.currentIndex] == '"') {
       var end = this.currentIndex,
           index,
-          count;
+          count,
+          input = this.input;
       for (; ; ) {
-        end = this.input.indexOf('"', end + 1);
+        /*#stringSearchDouble*/
+        //end = this._indexOf('\'', end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
@@ -132,6 +155,7 @@ class Tokenizer {
   _readComment (currentIndex) {
     if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '/') {
       return this.input.substring(currentIndex, this.input.indexOf('\n', currentIndex)); // TODO \n ?
+      //return this.input.substring(currentIndex, this._indexOf('\n', currentIndex)); // TODO \n ?
     }
     return null;
   }
@@ -140,9 +164,10 @@ class Tokenizer {
     let input = this.input;
     if (input.charCodeAt(currentIndex) === 47 && input.charCodeAt(currentIndex + 1) === 42) {
       // TODO check vvv
-      let endIndex = input.indexOf('*/', currentIndex);
+      //let endIndex = this._indexOf('*/', currentIndex);
+      let endIndex = this.input.indexOf('*/', currentIndex);
       let search = currentIndex;
-      while ((search = input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
+      while ((search = this.input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
         this.currentLine++;
       }
       // TODO check ^^^
