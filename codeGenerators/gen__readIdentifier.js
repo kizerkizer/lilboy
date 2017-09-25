@@ -1,29 +1,3 @@
-  var a = `_readIdentifier () {
-    let index = this.currentIndex;
-    for (let length = this.input.length; index < length;) {
-      if (index == this.currentIndex) {
-        if (/[a-zA-Z]/.test(this.input[index])) {
-          index++;
-        } else {
-          break;
-        }
-      } else {
-        if (/[0-9a-zA-Z]/.test(this.input[index])) {
-          index++;
-        } else {
-          break;
-        }
-      }
-    }
-    if (index == this.currentIndex) {
-      return null;
-    }
-    return this.input.substring(this.currentIndex, index);
-  }
-
-`
-const 
-
 let lines = [];
 
 const $ = (line) => {
@@ -32,19 +6,34 @@ const $ = (line) => {
 
 $('_readIdentifier () {');
 $('  let index = this.currentIndex;');
+$('  let input = this.input;');
+$('  for (let length = this.input.length; index < length; ) {');
+$('    let code = input.charCodeAt(index);');
+$('    if (index === this.currentIndex) {');
 
-let clauses = [];
+let validFirstCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_'.split('').map(character => character.charCodeAt(0)); // TODO add more
+let validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789'.split('').map(character => character.charCodeAt(0)); // TODO add more
 
-// https://stackoverflow.com/a/10073788
-function toString (number) {
-  let str = number.toString(16);
-  return '0x' + str.length >= 4 ? str : new Array(4 - str.length + 1).join('0') + str;
-}
+let firstCharClauses = validFirstCharacters.map(code => 'code === ' + code);
+let charClauses = validCharacters.map(code => 'code === ' + code);
 
-newlineCodes.forEach(code => {
-  clauses.push('code === ' + '0x' + toString(code));
-});
-$('  return ' + clauses.join(' || ') + ';');
+$('      if (' + firstCharClauses.join(' || ') + ') {');
+$('        index++;');
+$('      } else {');
+$('        break;');
+$('      }');
+$('    } else { ');
+$('      if (' + charClauses.join(' || ') + ') {');
+$('        index++;');
+$('      } else {');
+$('        break;');
+$('      }');
+$('    }');
+$('  }');
+$('  if (index === this.currentIndex) {');
+$('    return null;');
+$('  }');
+$('  return this.input.substring(this.currentIndex, index);');
 $('}');
 
 module.exports = () => {

@@ -1,14 +1,5 @@
 const newlineCodes = [0x000a, 0x000d, 0x2028, 0x2029];
 
-let lines = [];
-
-const $ = (line) => {
-  lines.push(line);
-}
-
-$('_isNewline (character) {');
-$('  let code = character.charCodeAt(0);');
-
 let clauses = [];
 
 // https://stackoverflow.com/a/10073788
@@ -20,9 +11,7 @@ function toString (number) {
 newlineCodes.forEach(code => {
   clauses.push('code === ' + '0x' + toString(code));
 });
-$('  return ' + clauses.join(' || ') + ';');
-$('}');
 
 module.exports = () => {
-  return lines.join('\n');
+  return clauses.join(' || ');
 };

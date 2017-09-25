@@ -6,8 +6,8 @@ const $ = (line) => {
   lines.push(line);
 }
 
-$('_isWhitespace (character) {');
-$('  let code = character.charCodeAt(0);');
+//$('_isWhitespace (character) {');
+//$('  let code = character.charCodeAt(0);');
 
 let clauses = [];
 
@@ -20,8 +20,8 @@ function toString (number) {
 whitespaceCodes.forEach(code => {
   clauses.push('code === ' + '0x' + toString(code));
 });
-$('  return ' + clauses.join(' || ') + ';');
-$('}');
+$(clauses.join(' || '));
+//$('}');
 
 module.exports = () => {
   return lines.join('\n');
