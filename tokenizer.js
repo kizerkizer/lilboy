@@ -10,29 +10,30 @@ class Tokenizer {
 
 //#_readPunctuator
 
+  _isIdentifierFirstCharUnicode(code) {
+    return false; // TODO
+  }
+
   // TODO support other unicode characters
   _readSimpleIdentifier () {
     let index = this.currentIndex,
         currentIndex = this.currentIndex,
-        input = this.input;
-    for (let code, length = this.input.length; index < length; ) {
-      code = input.charCodeAt(index);
-      if (index == currentIndex) {
-        if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95) {
-          index++;
-        } else {
-          break;
-        }
-      } else {
-        if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-          index++;
-        } else {
-          break;
-        }
-      }
-    }
-    if (index == currentIndex) {
+        input = this.input,
+        code = input.charCodeAt(index);
+    // check if valid first char
+    if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95 || this._isIdentifierFirstCharUnicode(code)) {
+      index++;
+    } else {
       return null;
+    }
+    // check remaining chars
+    for (let length = this.input.length; index < length; ) {
+      code = input.charCodeAt(index);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+        index++;
+      } else {
+        break;
+      }
     }
     return input.slice(currentIndex, index);
   }
