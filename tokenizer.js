@@ -10,25 +10,6 @@ class Tokenizer {
 
 //#_readPunctuator
 
-   /*_indexOf (string, startingIndex) {
-    let input = this.input,
-        stringLength = string.length,
-        index;
-    for (let i = startingIndex, j = 0, length = this.input.length; i < length; i++) {
-      index = i;
-      while (input.charAt(i + j) === string.charAt(j) && j < stringLength) {
-        j++;
-      }
-      if (j === string.length) {
-        return index;
-      }
-      j = 0;
-    }
-    return -1;
-   }*/
-
-  // _indexOf (string, startingIndex) : Number // TODO ?
-
   // TODO support other unicode characters
   _readSimpleIdentifier () {
     let index = this.currentIndex,
