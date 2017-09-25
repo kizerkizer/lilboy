@@ -22,11 +22,54 @@ class Tokenizer {
         code = input.charCodeAt(index);
     // check if valid first char
     if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95 || this._isIdentifierFirstCharUnicode(code)) {
-      index++;
+      //index++;
     } else {
       return null;
     }
     // check remaining chars
+    // 1
+      code = input.charCodeAt(index + 1);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+        
+      } else {
+        return input.slice(currentIndex, index + 1);
+      }
+    // 2
+      code = input.charCodeAt(index + 2);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 2);
+      }
+    // 3
+      code = input.charCodeAt(index + 3);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 3);
+      }
+    // 4
+      code = input.charCodeAt(index + 4);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 4);
+      }
+    // 5
+      code = input.charCodeAt(index + 5);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 5);
+      }
+    // 6
+      code = input.charCodeAt(index + 6);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 6);
+      }
+    index += 6;
     for (let length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
