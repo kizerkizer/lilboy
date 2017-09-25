@@ -44,7 +44,7 @@ class Tokenizer {
         input = this.input,
         noPointYet = true;
     // hex integer?
-    if (input.charCodeAt(index) === 48 && input.charCodeAt(index + 1) === 120) {
+    if (input.charCodeAt(index + 1) === 120 && input.charCodeAt(index) === 48 ) {
       index += 2;
       for (let code, length = this.input.length; index < length; ) {
         code = input.charCodeAt(index);
@@ -56,7 +56,7 @@ class Tokenizer {
       }
       return input.slice(this.currentIndex, index);
     }
-    // decimal ?
+    // decimal?
     let code,
         length = this.input.length;
     code = input.charCodeAt(index);
@@ -84,57 +84,52 @@ class Tokenizer {
   }
 
   _readString () {
-    if (this.input[this.currentIndex] == '\'') {
-      var end = this.currentIndex,
-          index,
-          count,
-          input = this.input;
+    let input = this.input,
+        index,
+        quote,
+        end = this.currentIndex,
+        count;
+    if (input.charCodeAt(this.currentIndex) === 39) { // '
+      quote = 39;
       for (; ; ) {
         /*#stringSearchSingle*/
-        //end = this._indexOf('\'', end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
-        index = end - 1,
+        index = end - 1;
         count = 0;
-        while (this.input[index] == '\\') {
+        while (this.input.charCodeAt(index) === 92) { // \
           index--;
           count++;
         }
-        if (count % 2 == 0) {
-          break;
+        if (count % 2 === 0) {
+          return input.slice(this.currentIndex, end + 1);
         } else {
           continue;
         }
-      }
-      return this.input.slice(this.currentIndex, end + 1);
-    }
-    if (this.input[this.currentIndex] == '"') {
-      var end = this.currentIndex,
-          index,
-          count,
-          input = this.input;
+     }
+    } else if (input.charCodeAt(this.currentIndex) === 34) { // "
+      quote = 34;
       for (; ; ) {
         /*#stringSearchDouble*/
-        //end = this._indexOf('\'', end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
-        index = end - 1,
+        index = end - 1;
         count = 0;
-        while (this.input[index] == '\\') {
+        while (this.input.charCodeAt(index) === 92) { // \
           index--;
           count++;
         }
-        if (count % 2 == 0) {
-          break;
+        if (count % 2 === 0) {
+          return input.slice(this.currentIndex, end + 1);
         } else {
           continue;
         }
-      }
-      return this.input.slice(this.currentIndex, end + 1);
+     }
+    } else {
+      return null;
     }
-    return null;
   }
 
   _readComment (currentIndex) {
