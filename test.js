@@ -47,7 +47,7 @@ const bunchofcomments = fs.readFileSync('./samples/bunchofcomments.js').toString
 //const lodash = fs.readFileSync('./samples/lodash.min.js').toString();
 const angular = fs.readFileSync('./samples/angular.min.js').toString();
 
-const test = jquery + react;
+const test = code;
 
 let a = [],
     b = [],
