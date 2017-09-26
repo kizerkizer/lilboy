@@ -155,11 +155,9 @@ class Tokenizer {
   _readString () {
     let input = this.input,
         index,
-        quote,
         end = this.currentIndex,
         count;
     if (input.charCodeAt(this.currentIndex) === 39) { // '
-      //quote = 39;
       for (; ; ) {
         /*#stringSearchSingle*/
         if (end === -1) {
@@ -178,7 +176,6 @@ class Tokenizer {
         }
      }
     } else if (input.charCodeAt(this.currentIndex) === 34) { // "
-      //quote = 34;
       for (; ; ) {
         /*#stringSearchDouble*/
         if (end === -1) {
