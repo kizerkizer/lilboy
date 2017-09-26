@@ -21,7 +21,7 @@ module.exports = (quote) => {
     $('}');
   }
   $('  else {');
-  $('    end = this.input.indexOf(String.fromCharCode(' + quote + '), end + ' + (limit + 1) + ')');
+  $('    end = input.indexOf(String.fromCharCode(' + quote + '), end + ' + (limit + 1) + ')');
   $('  }');
   return code;
 };

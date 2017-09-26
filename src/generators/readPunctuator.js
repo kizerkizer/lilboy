@@ -12,7 +12,6 @@ function getCharCodeMap (punctuators, index) {
   map.punctuators = punctuators;
   punctuators.forEach(punctuator => {
     if (index == punctuator.length - 1) {
-      map[punctuator.charCodeAt(index)].push(punctuator);*/
       map[punctuator.charCodeAt(index)] = punctuator;
     } else {
       if (!charCodeToPunctuators[punctuator.charCodeAt(index)]) {
@@ -34,12 +33,10 @@ function getCharCodeMap (punctuators, index) {
 
 let map = getCharCodeMap(punctuators, 0);
 
-
-$('_readPunctuator () {');
-
 function generate (map, index) {
   if (typeof map === 'string') {
-    return $('  '.repeat(index * 2) + 'return \'' + map + '\';');
+    $('  '.repeat(index * 2) + 'candidate = \'' + map + '\';');
+    return;
   }
   $('  '.repeat((index + 0) * 2) + 'switch(input.charCodeAt(index + ' + index + ')) {');
   for (let charCode in map) {
@@ -48,6 +45,7 @@ function generate (map, index) {
     }
     $('  '.repeat((index + 0) * 2 + 1) + 'case ' + charCode + ':');
     generate(map[charCode], index + 1);
+    $('  '.repeat((index + 1) * 2 + 1) + 'break;');
   }
   $('  '.repeat((index + 0) * 2 + 1) + 'default:');
   let readSoFar = '',
@@ -61,16 +59,16 @@ function generate (map, index) {
   readSoFar = readSoFar.split('').reverse().join('');
   let searchIndex;
   if ((searchIndex = punctuators.indexOf(readSoFar)) > -1) {
-    $('  '.repeat(index * 3 + 1) + 'return \'' + punctuators[searchIndex] + '\';');
+    $('  '.repeat(index * 3 + 1) + 'candidate = \'' + punctuators[searchIndex] + '\';');
+    $('  '.repeat(index * 2 + 1) + 'break;');
   } else {
-    $('  '.repeat(index * 3 + 1) + 'return null;');
+    $('  '.repeat(index * 3 + 1) + 'candidate = null;');
+    $('  '.repeat(index * 2 + 1) + 'break;');
   }
   $('  '.repeat((index + 0) * 2) + '}');
 }
 
 generate(map, 0);
-
-$('}');
 
 module.exports = () => {
   return lines.join('\n');

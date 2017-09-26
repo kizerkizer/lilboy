@@ -1,29 +1,28 @@
-for (length = input.length, comment, code = input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
-  if (index >= length) {
+for (let length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = this.input.charCodeAt(this.currentIndex)) {
+  if (this.currentIndex >= length) {
     return {
       done: true,
       value: undefined
     };
   }
   if (/*#isWhitespace*/) {
-    index++;
+    this.currentIndex++;
     continue;
   }
   if (/*#isNewline*/) {
-    index++;
-    line++;
+    this.currentIndex++;
+    this.line++;
     continue;
   }
   /*#readComment*/
   if (comment) {
-    index += comment.length;
+    this.currentIndex += comment.length;
     continue;
   }
   /*#readMultilineComment*/
   if (comment) {
-    index += comment.length;
+    this.currentIndex += comment.length;
     continue;
   }
-  this.currentIndex = index;
   break;
 }

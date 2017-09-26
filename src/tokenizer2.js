@@ -1,23 +1,17 @@
-const _tokenizer = input => {
-  let index = 0,
-      line = 1,
-      lastReadToken = null;
-  return {
-    next: () => {
+class Tokenizer {
+  constructor (input) {
+    this.input = input;
+    this.index = 0;
+    this.line = 0;
+    this.lastReadToken = null;
+  }
+  next () {
       /*#skipWhitespaceAndComments*/
-      let candidate;
-      /*#readPunctuator*/
-      /*#readKeyword*/
-      /*#readIdentifier*/
-      /*#readString*/
-      /*#readNumber*/
-      /*#readRegex*/
-    }
-  };
-};
+  }
+}
 
 module.exports = input => {
-  let tokenizer = _tokenizer(input);
+  let tokenizer = new Tokenizer(input);
   return {
     [Symbol.iterator] () {
       return {

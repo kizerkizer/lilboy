@@ -1,12 +1,12 @@
-if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 42) {
+if (this.input.charCodeAt(this.currentIndex) === 47 && this.input.charCodeAt(this.currentIndex + 1) === 42) {
   // TODO check vvv
-  let end = input.indexOf('*/', index),
-      search = index;
-  while ((search = input.indexOf('\n', search + 1)) !== -1 && search < end) {
-    line++;
+  let end = this.input.indexOf('*/', this.currentIndex),
+      search = this.currentIndex;
+  while ((search = this.input.indexOf('\n', search + 1)) !== -1 && search < end) {
+    this.line++;
   }
   // TODO check ^^^
-  comment = input.slice(index, end + 2);
+  comment = this.input.slice(this.currentIndex, end + 2);
 } else {
   comment = null;
 }
