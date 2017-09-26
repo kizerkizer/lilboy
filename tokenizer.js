@@ -69,7 +69,77 @@ class Tokenizer {
       } else {
         return input.slice(currentIndex, index + 6);
       }
-    index += 6;
+    // 7
+      code = input.charCodeAt(index + 7);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 7);
+      }
+    // 8
+      code = input.charCodeAt(index + 8);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 8);
+      }
+    // 9
+      /*code = input.charCodeAt(index + 9);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 9);
+      }
+    // 10
+      code = input.charCodeAt(index + 10);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 10);
+      }
+    // 11
+      code = input.charCodeAt(index + 11);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 11);
+      }
+    // 12
+      code = input.charCodeAt(index + 12);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 12);
+      }
+    // 13
+      code = input.charCodeAt(index + 13);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 13);
+      }
+    // 14
+      code = input.charCodeAt(index + 14);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 14);
+      }
+    // 15
+      code = input.charCodeAt(index + 15);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 15);
+      }
+    // 16
+      code = input.charCodeAt(index + 16);
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+
+      } else {
+        return input.slice(currentIndex, index + 16);
+      }*/
+    index += 8;
     for (let length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
