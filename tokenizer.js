@@ -87,7 +87,7 @@ class Tokenizer {
         input = this.input,
         noPointYet = true;
     // hex integer?
-    if (input.charCodeAt(index + 1) === 120 && input.charCodeAt(index) === 48 ) {
+    if ((input.charCodeAt(index + 1) === 120 || input.charCodeAt(index + 1) === 88) && input.charCodeAt(index) === 48) {
       index += 2;
       for (let code, length = this.input.length; index < length; ) {
         code = input.charCodeAt(index);
@@ -99,7 +99,33 @@ class Tokenizer {
       }
       return input.slice(this.currentIndex, index);
     }
-    // decimal?
+    // octal integer?
+    if ((input.charCodeAt(index + 1) === 111 || input.charCodeAt(index + 1) === 79) && input.charCodeAt(index) === 48) {
+      index += 2;
+      for (let code, length = this.input.length; index < length; ) {
+        code = input.charCodeAt(index);
+        if (code >= 48 && code <= 55) {
+          index++;
+        } else {
+          break;
+        }
+      }
+      return input.slice(this.currentIndex, index);
+    }
+    // binary integer?
+    if ((input.charCodeAt(index + 1) === 98 || input.charCodeAt(index + 1) === 66) && input.charCodeAt(index) === 48) {
+      index += 2;
+      for (let code, length = this.input.length; index < length; ) {
+        code = input.charCodeAt(index);
+        if (code === 48 || code === 49) {
+          index++;
+        } else {
+          break;
+        }
+      }
+      return input.slice(this.currentIndex, index);
+    }
+    // decimal? TODO decimal integer
     let code,
         length = this.input.length;
     code = input.charCodeAt(index);
