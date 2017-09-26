@@ -6,9 +6,17 @@ class Tokenizer {
     this.lastReadToken = null;
   }
 
+  _isKeyword (string) {
+    return string === 'var' || string === 'if' || string === 'this' || string === 'for' || string === 'while' || string === 'break' || string === 'case' || string === 'catch' || string === 'class' || string === 'const' || string === 'continue' || string === 'debugger' || string === 'default' || string === 'delete' || string === 'do' || string === 'else' || string === 'export' || string === 'extends' || string === 'finally' || string === 'function' || string === 'import' || string === 'in' || string === 'instanceof' || string === 'new' || string === 'return' || string === 'super' || string === 'switch' || string === 'throw' || string === 'try' || string === 'typeof' || string === 'void' || string === 'with' || string === 'yield';
+  }
+
   // _readPunctuator () : String | null (generated)
 
 //#_readPunctuator
+
+  // _readKeyword () : String | null (generated)
+
+//#_readKeyword
 
   _isIdentifierFirstCharUnicode(code) {
     return false; // TODO
@@ -28,7 +36,7 @@ class Tokenizer {
     }
     // check remaining chars
     // 1
-      code = input.charCodeAt(index + 1);
+      /*code = input.charCodeAt(index + 1);
       if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
         
       } else {
@@ -84,7 +92,7 @@ class Tokenizer {
         return input.slice(currentIndex, index + 8);
       }
     // 9
-      /*code = input.charCodeAt(index + 9);
+      code = input.charCodeAt(index + 9);
       if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
 
       } else {
@@ -138,8 +146,8 @@ class Tokenizer {
 
       } else {
         return input.slice(currentIndex, index + 16);
-      }*/
-    index += 8;
+      }
+    index += 16;*/
     for (let length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
       if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
@@ -268,30 +276,51 @@ class Tokenizer {
     }
   }
 
-  _readComment (currentIndex) {
-    let index = currentIndex,
-        input = this.input;
-    if (this.input[currentIndex] == '/' && this.input[currentIndex + 1] == '/') {
-      /*searchNewline*/
+  _readComment (index) {
+    let input = this.input;
+    if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 47) {
+      /* #searchNewline*/
       //return this.input.slice(currentIndex, index);
-      return this.input.slice(currentIndex, this.input.indexOf('\n', currentIndex)); // TODO \n ?
+      //return input.slice(currentIndex, index);
+      /*if (input.charCodeAt(index + 2) === 10) {
+        return input.slice(index, index + 2);
+      }
+      if (input.charCodeAt(index + 3) === 10) {
+        return input.slice(index, index + 3);
+      }
+      if (input.charCodeAt(index + 4) === 10) {
+        return input.slice(index, index + 4);
+      }
+      if (input.charCodeAt(index + 5) === 10) {
+        return input.slice(index, index + 5);
+      }
+      if (input.charCodeAt(index + 6) === 10) {
+        return input.slice(index, index + 6);
+      }
+      if (input.charCodeAt(index + 7) === 10) {
+        return input.slice(index, index + 7);
+      }
+      if (input.charCodeAt(index + 8) === 10) {
+        return input.slice(index, index + 8);
+      }*/
+      return input.slice(index, input.indexOf('\n', index)); // TODO \n ?
       //return this.input.slice(currentIndex, this._indexOf('\n', currentIndex)); // TODO \n ?
     }
     return null;
   }
 
-  _readMultilineComment (currentIndex) {
+  _readMultilineComment (index) {
     let input = this.input;
-    if (input.charCodeAt(currentIndex) === 47 && input.charCodeAt(currentIndex + 1) === 42) {
+    if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 42) {
       // TODO check vvv
-      //let endIndex = this._indexOf('*/', currentIndex);
-      let endIndex = this.input.indexOf('*/', currentIndex);
-      let search = currentIndex;
+      //let endIndex = this._indexOf('*/', index);
+      let endIndex = this.input.indexOf('*/', index);
+      let search = index;
       while ((search = this.input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
         this.currentLine++;
       }
       // TODO check ^^^
-      return this.input.slice(currentIndex, endIndex + 2);
+      return this.input.slice(index, endIndex + 2);
     }
     return null;
   }
@@ -335,6 +364,17 @@ class Tokenizer {
         this.currentLine++;
         continue;
       }
+      // read single line comment
+      //if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 47) {
+        /*# searchNewline*/
+        //comment = input.slice(index, input.indexOf('\n', index)); // TODO \n ?
+      //} else {
+        //comment = null;
+      //}
+      //if (comment) {
+        //index += comment.length;
+        //continue;
+      //}
       if (comment = this._readComment(index)) {
         index += comment.length;
         continue;
@@ -348,6 +388,20 @@ class Tokenizer {
     }
 
     let candidate;
+
+    // try to read an identifier
+    candidate = this._readSimpleIdentifier();
+    if (candidate) {
+      this.currentIndex += candidate.length;
+      return this.lastReadToken = {
+        done: false,
+        value: {
+          type: this._isKeyword(candidate) ? 'keyword' : 'identifier',
+          value: candidate,
+          line: this.currentLine
+        }
+      };
+    }
 
     // try to read a regex literal
     candidate = this._readRegex();
@@ -371,20 +425,6 @@ class Tokenizer {
         done: false,
         value: {
           type: 'punctuator',
-          value: candidate,
-          line: this.currentLine
-        }
-      };
-    }
-
-    // try to read an identifier
-    candidate = this._readSimpleIdentifier();
-    if (candidate) {
-      this.currentIndex += candidate.length;
-      return this.lastReadToken = {
-        done: false,
-        value: {
-          type: 'identifier',
           value: candidate,
           line: this.currentLine
         }
