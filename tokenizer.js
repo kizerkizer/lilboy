@@ -364,17 +364,6 @@ class Tokenizer {
         line++;
         continue;
       }
-      // read single line comment
-      //if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 47) {
-        /*# searchNewline*/
-        //comment = input.slice(index, input.indexOf('\n', index)); // TODO \n ?
-      //} else {
-        //comment = null;
-      //}
-      //if (comment) {
-        //index += comment.length;
-        //continue;
-      //}
       if (comment = this._readComment(index)) {
         index += comment.length;
         continue;
