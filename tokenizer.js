@@ -159,7 +159,7 @@ class Tokenizer {
     return input.slice(currentIndex, index);
   }
   
-  _readIntegerOrSimpleFloat () {
+  _readNumber () {
     let index = this.currentIndex,
         currentIndex = this.currentIndex,
         input = this.input,
@@ -446,7 +446,7 @@ class Tokenizer {
     }
 
     // try to read a number literal
-    candidate = this._readIntegerOrSimpleFloat();
+    candidate = this._readNumber();
     if (candidate) {
       this.currentIndex += candidate.length;
       return this.lastReadToken = {
