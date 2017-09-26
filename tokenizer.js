@@ -14,10 +14,6 @@ class Tokenizer {
 
 //#_readPunctuator
 
-  // _readKeyword () : String | null (generated)
-
-//#_readKeyword
-
   _isIdentifierFirstCharUnicode (code) {
     return false; // TODO
   }
