@@ -4,9 +4,20 @@ const acorn = require('acorn'),
       esprima = require('esprima'),
       sbs = require('sidebyside');
 
-const tokenizer = require('./dist/out.js');
+const tokenizer = require('./dist/out.min.js');
+
+const basic = '2>>>2';
 
 const simple = `/test/.match('foo');`;
+
+const string = '"foo"\'foo\'\'bar\'';
+
+const strings = `
+function bar () {
+  var foo = "a string";
+  var bar = "another string";
+}
+`;
 
 const code = `
 // testing 123
@@ -27,13 +38,16 @@ function (foo, bar) {
 `;
 
 //const tabs = fs.readFileSync('./samples/across-tabs.js').toString();
-//const somejqueryfile = fs.readFileSync('./samples/somejqueryfile.js').toString();
+const somejqueryfile = fs.readFileSync('./samples/somejqueryfile.js').toString();
 //const anotherjqueryfile = fs.readFileSync('./samples/anotherjqueryfile.js').toString();
-//const jquery = fs.readFileSync('./samples/jquery.js').toString();
+const jquery = fs.readFileSync('./samples/jquery.js').toString();
 const react = fs.readFileSync('./samples/react.js').toString();
+//const somestrings = fs.readFileSync('./samples/strings.js').toString();
+const bunchofcomments = fs.readFileSync('./samples/bunchofcomments.js').toString();
+//const lodash = fs.readFileSync('./samples/lodash.min.js').toString();
+const angular = fs.readFileSync('./samples/angular.min.js').toString();
 
-const test = react;
-
+const test = jquery + react;
 
 let a = [],
     b = [],
