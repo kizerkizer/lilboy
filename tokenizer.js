@@ -348,7 +348,7 @@ class Tokenizer {
   next () {
 
     // skip whitespace, newlines, comments
-    for (let index = this.currentIndex, input = this.input, length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
+    for (let index = this.currentIndex, line = this.currentLine, input = this.input, length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
       if (index >= length) {
         return {
           done: true,
@@ -361,7 +361,7 @@ class Tokenizer {
       }
       if (/*#_isNewline*/) {
         index++;
-        this.currentLine++;
+        line++;
         continue;
       }
       // read single line comment
