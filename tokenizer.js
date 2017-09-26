@@ -18,7 +18,11 @@ class Tokenizer {
 
 //#_readKeyword
 
-  _isIdentifierFirstCharUnicode(code) {
+  _isIdentifierFirstCharUnicode (code) {
+    return false; // TODO
+  }
+
+  _isIdentifierCharUnicode (code) {
     return false; // TODO
   }
 
@@ -30,127 +34,14 @@ class Tokenizer {
         code = input.charCodeAt(index);
     // check if valid first char
     if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95 || this._isIdentifierFirstCharUnicode(code)) {
-      //index++;
+      index++;
     } else {
       return null;
     }
     // check remaining chars
-    // 1
-      /*code = input.charCodeAt(index + 1);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-        
-      } else {
-        return input.slice(currentIndex, index + 1);
-      }
-    // 2
-      code = input.charCodeAt(index + 2);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 2);
-      }
-    // 3
-      code = input.charCodeAt(index + 3);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 3);
-      }
-    // 4
-      code = input.charCodeAt(index + 4);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 4);
-      }
-    // 5
-      code = input.charCodeAt(index + 5);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 5);
-      }
-    // 6
-      code = input.charCodeAt(index + 6);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 6);
-      }
-    // 7
-      code = input.charCodeAt(index + 7);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 7);
-      }
-    // 8
-      code = input.charCodeAt(index + 8);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 8);
-      }
-    // 9
-      code = input.charCodeAt(index + 9);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 9);
-      }
-    // 10
-      code = input.charCodeAt(index + 10);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 10);
-      }
-    // 11
-      code = input.charCodeAt(index + 11);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 11);
-      }
-    // 12
-      code = input.charCodeAt(index + 12);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 12);
-      }
-    // 13
-      code = input.charCodeAt(index + 13);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 13);
-      }
-    // 14
-      code = input.charCodeAt(index + 14);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 14);
-      }
-    // 15
-      code = input.charCodeAt(index + 15);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 15);
-      }
-    // 16
-      code = input.charCodeAt(index + 16);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
-
-      } else {
-        return input.slice(currentIndex, index + 16);
-      }
-    index += 16;*/
     for (let length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
-      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95) {
+      if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || (code >= 48 && code <= 57) || code === 36 || code === 95 || this._isIdentifierCharUnicode(code)) {
         index++;
       } else {
         break;
@@ -279,32 +170,7 @@ class Tokenizer {
   _readComment (index) {
     let input = this.input;
     if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 47) {
-      /* #searchNewline*/
-      //return this.input.slice(currentIndex, index);
-      //return input.slice(currentIndex, index);
-      /*if (input.charCodeAt(index + 2) === 10) {
-        return input.slice(index, index + 2);
-      }
-      if (input.charCodeAt(index + 3) === 10) {
-        return input.slice(index, index + 3);
-      }
-      if (input.charCodeAt(index + 4) === 10) {
-        return input.slice(index, index + 4);
-      }
-      if (input.charCodeAt(index + 5) === 10) {
-        return input.slice(index, index + 5);
-      }
-      if (input.charCodeAt(index + 6) === 10) {
-        return input.slice(index, index + 6);
-      }
-      if (input.charCodeAt(index + 7) === 10) {
-        return input.slice(index, index + 7);
-      }
-      if (input.charCodeAt(index + 8) === 10) {
-        return input.slice(index, index + 8);
-      }*/
       return input.slice(index, input.indexOf('\n', index)); // TODO \n ?
-      //return this.input.slice(currentIndex, this._indexOf('\n', currentIndex)); // TODO \n ?
     }
     return null;
   }
@@ -348,7 +214,7 @@ class Tokenizer {
   next () {
 
     // skip whitespace, newlines, comments
-    for (let index = this.currentIndex, line = this.currentLine, input = this.input, length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
+    for (let index = this.currentIndex, l = this.currentLine, input = this.input, length = this.input.length, comment, code = this.input.charCodeAt(this.currentIndex); ; code = input.charCodeAt(index)) {
       if (index >= length) {
         return {
           done: true,
@@ -361,7 +227,7 @@ class Tokenizer {
       }
       if (/*#_isNewline*/) {
         index++;
-        line++;
+        l++;
         continue;
       }
       if (comment = this._readComment(index)) {
@@ -373,6 +239,7 @@ class Tokenizer {
         continue;
       }
       this.currentIndex = index;
+      this.currentLine = l;
       break;
     }
 
