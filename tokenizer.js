@@ -7,7 +7,7 @@ class Tokenizer {
   }
 
   _isKeyword (string) {
-    return string === 'var' || string === 'if' || string === 'this' || string === 'for' || string === 'while' || string === 'break' || string === 'case' || string === 'catch' || string === 'class' || string === 'const' || string === 'continue' || string === 'debugger' || string === 'default' || string === 'delete' || string === 'do' || string === 'else' || string === 'export' || string === 'extends' || string === 'finally' || string === 'function' || string === 'import' || string === 'in' || string === 'instanceof' || string === 'new' || string === 'return' || string === 'super' || string === 'switch' || string === 'throw' || string === 'try' || string === 'typeof' || string === 'void' || string === 'with' || string === 'yield';
+    return string === 'var' || string === 'if' || string === 'return' || string === 'this' || string === 'for' || string === 'while' || string === 'break' || string === 'case' || string === 'catch' || string === 'class' || string === 'const' || string === 'continue' || string === 'debugger' || string === 'default' || string === 'delete' || string === 'do' || string === 'else' || string === 'export' || string === 'extends' || string === 'finally' || string === 'function' || string === 'import' || string === 'in' || string === 'instanceof' || string === 'new' || string === 'super' || string === 'switch' || string === 'throw' || string === 'try' || string === 'typeof' || string === 'void' || string === 'with' || string === 'yield';
   }
 
   // _readPunctuator () : String | null (generated)
