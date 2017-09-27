@@ -122,7 +122,7 @@ class Tokenizer {
         index,
         end = this.currentIndex,
         count;
-    if (input.charCodeAt(this.currentIndex) === 39) { // '
+    if (input.charCodeAt(end) === 39) { // '
       for (; ; ) {
         /*#stringSearchSingle*/
         if (end === -1) {
@@ -130,7 +130,7 @@ class Tokenizer {
         }
         index = end - 1;
         count = 0;
-        while (this.input.charCodeAt(index) === 92) { // \
+        while (input.charCodeAt(index) === 92) { // \
           index--;
           count++;
         }
@@ -140,7 +140,7 @@ class Tokenizer {
           continue;
         }
      }
-    } else if (input.charCodeAt(this.currentIndex) === 34) { // "
+    } else if (input.charCodeAt(end) === 34) { // "
       for (; ; ) {
         /*#stringSearchDouble*/
         if (end === -1) {
@@ -148,7 +148,7 @@ class Tokenizer {
         }
         index = end - 1;
         count = 0;
-        while (this.input.charCodeAt(index) === 92) { // \
+        while (input.charCodeAt(index) === 92) { // \
           index--;
           count++;
         }
@@ -172,15 +172,18 @@ class Tokenizer {
   }
 
   _readMultilineComment (index) {
-    let input = this.input;
+    let input = this.input,
+        line;
     if (input.charCodeAt(index) === 47 && input.charCodeAt(index + 1) === 42) {
       // TODO check vvv
       //let endIndex = this._indexOf('*/', index);
-      let endIndex = this.input.indexOf('*/', index);
+      line = this.currentLine;
+      let endIndex = input.indexOf('*/', index);
       let search = index;
-      while ((search = this.input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
-        this.currentLine++;
+      while ((search = input.indexOf('\n', search + 1)) !== -1 && search < endIndex) { // TODO \n ?
+        line++;
       }
+      this.currentLine = line;
       // TODO check ^^^
       return this.input.slice(index, endIndex + 2);
     }
