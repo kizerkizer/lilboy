@@ -25,15 +25,15 @@ class Tokenizer {
   // TODO support other unicode characters
   _readSimpleIdentifier () {
     let index = this.currentIndex,
-        currentIndex = this.currentIndex,
-        input = this.input,
-        code = input.charCodeAt(index);
+        code = this.input.charCodeAt(index);
     // check if valid first char
     if ((code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code === 36 || code === 95 || this._isIdentifierFirstCharUnicode(code)) {
       index++;
     } else {
       return null;
     }
+    let currentIndex = this.currentIndex,
+        input = this.input;
     // check remaining chars
     for (let length = this.input.length; index < length; ) {
       code = input.charCodeAt(index);
