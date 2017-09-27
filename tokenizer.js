@@ -317,18 +317,21 @@ class Tokenizer {
   }
 }
 
-// Iterables are not elegant >:(
-module.exports = (input) => {
-  let tokenizer = new Tokenizer(input);
-  return {
-    [Symbol.iterator] () {
-      return {
-        next () {
-          return tokenizer.next();
-        }
+class TokenizerInterface {
+  constructor (input) {
+    this._tokenizer = new Tokenizer(input);
+  }
+  [Symbol.iterator] () {
+    return {
+      next: () => {
+        return this._tokenizer.next();
       }
     }
-  };
+  }
+}
+
+module.exports = function (input) {
+  return new TokenizerInterface(input);
 };
 
 module.exports.Tokenizer = Tokenizer;
