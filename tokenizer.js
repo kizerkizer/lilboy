@@ -124,7 +124,7 @@ class Tokenizer {
         count;
     if (input.charCodeAt(end) === 39) { // '
       for (; ; ) {
-        /*#stringSearchSingle*/
+        end = input.indexOf("'", end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
@@ -142,7 +142,7 @@ class Tokenizer {
      }
     } else if (input.charCodeAt(end) === 34) { // "
       for (; ; ) {
-        /*#stringSearchDouble*/
+        end = input.indexOf('"', end + 1);
         if (end === -1) {
           throw new Error('Open string');
         }
